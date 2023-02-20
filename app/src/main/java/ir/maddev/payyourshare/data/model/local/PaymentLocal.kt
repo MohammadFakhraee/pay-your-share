@@ -8,10 +8,10 @@ import androidx.room.PrimaryKey
  */
 @Entity
 data class PaymentLocal(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    @PrimaryKey(autoGenerate = true) var paymentId: Long = 0,
     var groupOwnerId: Long = 0,
     var personOwnerId: Long = 0,
     var title: String = "",
     var description: String = "",
-    var totalAmount: Long
+    var totalAmount: Long = 0
 )

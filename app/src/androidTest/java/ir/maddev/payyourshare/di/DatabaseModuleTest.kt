@@ -8,11 +8,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ir.maddev.payyourshare.data.source.local.ApplicationDatabase
+import ir.maddev.payyourshare.data.source.local.PaymentDao
+import ir.maddev.payyourshare.data.source.local.ShareDao
 import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule {
+class DatabaseModuleTest {
 
     @Provides
     @Named("test_db")
@@ -20,4 +22,12 @@ class AppModule {
         Room.inMemoryDatabaseBuilder(context, ApplicationDatabase::class.java)
             .allowMainThreadQueries()
             .build()
+
+    @Provides
+    @Named("share_dao")
+    fun provideShareDao(@Named("test_db") applicationDatabase: ApplicationDatabase): ShareDao = applicationDatabase.shareDao()
+
+    @Provides
+    @Named("payment_dao")
+    fun providePaymentDao(@Named("test_db") applicationDatabase: ApplicationDatabase): PaymentDao = applicationDatabase.paymentDao()
 }

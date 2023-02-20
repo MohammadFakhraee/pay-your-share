@@ -4,7 +4,7 @@ import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import ir.maddev.payyourshare.data.model.local.ShareLocal
+import ir.maddev.payyourshare.data.model.local.PaymentLocal
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -14,10 +14,10 @@ import org.junit.Test
 import javax.inject.Inject
 import javax.inject.Named
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @SmallTest
 @HiltAndroidTest
-class ShareDaoTest {
+@ExperimentalCoroutinesApi
+class PaymentDaoTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -27,8 +27,8 @@ class ShareDaoTest {
     lateinit var applicationDatabase: ApplicationDatabase
 
     @Inject
-    @Named("share_dao")
-    lateinit var shareDao: ShareDao
+    @Named("payment_dao")
+    lateinit var paymentDao: PaymentDao
 
     @Before
     fun setup() {
@@ -41,21 +41,21 @@ class ShareDaoTest {
     }
 
     @Test
-    fun insertShareLocal() = runTest {
-        val shareLocal = ShareLocal(id = 1, amount = 250L)
-        shareDao.save(shareLocal)
+    fun insertPaymentWithoutShare() = runTest {
+        val paymentLocal = PaymentLocal(id = 1)
+        paymentDao.save(paymentLocal)
 
-        val allShareLocal = shareDao.getAll()
-        assertThat(allShareLocal[0]).isEqualTo(shareLocal)
+        val allPayments = paymentDao.getAll()
+        assertThat(allPayments[0].paymentLocal).isEqualTo(paymentLocal)
     }
 
     @Test
-    fun removeShareLocal() = runTest {
-        val shareLocal = ShareLocal(id = 1)
-        shareDao.save(shareLocal)
-        shareDao.delete(shareLocal)
+    fun removePaymentWithoutShare() = runTest {
+        val paymentLocal = PaymentLocal(id = 1)
+        paymentDao.save(paymentLocal)
+        paymentDao.delete(paymentLocal)
 
-        val allShareLocal = shareDao.getAll()
-        assertThat(allShareLocal).isEmpty()
+        val allPayments = paymentDao.getAll()
+        assertThat(allPayments).isEmpty()
     }
 }

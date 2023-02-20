@@ -11,4 +11,6 @@ import ir.maddev.payyourshare.data.model.local.ShareLocal
 abstract class ApplicationDatabase : RoomDatabase() {
 
     abstract fun shareDao(): ShareDao
+
+    abstract fun paymentDao(): PaymentDao
 }

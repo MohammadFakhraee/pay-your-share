@@ -1,9 +1,6 @@
 package ir.maddev.payyourshare.data.source.local
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.*
 import ir.maddev.payyourshare.data.model.local.ShareLocal
 
 @Dao
@@ -14,4 +11,7 @@ interface ShareDao {
 
     @Delete
     suspend fun delete(shareLocal: ShareLocal)
+
+    @Query("SELECT * FROM ShareLocal")
+    suspend fun getAll(): List<ShareLocal>
 }

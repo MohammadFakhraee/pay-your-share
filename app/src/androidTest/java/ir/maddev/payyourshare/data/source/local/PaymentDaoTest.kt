@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import ir.maddev.payyourshare.data.model.local.PaymentLocal
+import ir.maddev.payyourshare.data.model.local.relations.PaymentWithShares
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -57,5 +58,11 @@ class PaymentDaoTest {
 
         val allPayments = paymentDao.getAll()
         assertThat(allPayments).isEmpty()
+    }
+
+    @Test
+    fun insertPaymentWithShare() = runTest {
+        val payment = PaymentLocal(id = 1)
+        val paymentWithShares = PaymentWithShares()
     }
 }

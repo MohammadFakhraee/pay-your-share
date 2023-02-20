@@ -1,5 +1,6 @@
 package ir.maddev.payyourshare.data.model.local
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,7 +9,7 @@ import androidx.room.PrimaryKey
  */
 @Entity
 data class GroupLocal(
-    @PrimaryKey(autoGenerate = true) var groupId: Long = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "groupId") var id: Long = 0,
     var name: String = "",
     var purpose: String = "",
     var color: String = ""

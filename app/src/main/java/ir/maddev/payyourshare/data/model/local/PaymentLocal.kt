@@ -1,5 +1,6 @@
 package ir.maddev.payyourshare.data.model.local
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,7 +9,7 @@ import androidx.room.PrimaryKey
  */
 @Entity
 data class PaymentLocal(
-    @PrimaryKey(autoGenerate = true) var paymentId: Long = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "paymentId") var id: Long = 0,
     var groupOwnerId: Long = 0,
     var personOwnerId: Long = 0,
     var title: String = "",

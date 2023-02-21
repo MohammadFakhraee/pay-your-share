@@ -11,13 +11,12 @@ import androidx.room.PrimaryKey
  * Every [PersonLocal] can make a payment in a [GroupLocal].
  */
 @Entity(
-    tableName = "tbl_payment",
     foreignKeys = [
         ForeignKey(
             entity = GroupLocal::class,
             parentColumns = ["groupId"],
             childColumns = ["groupOwnerId"],
-            onDelete = NO_ACTION,
+            onDelete = CASCADE,
             onUpdate = CASCADE
         ),
         ForeignKey(

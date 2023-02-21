@@ -8,13 +8,12 @@ import androidx.room.ForeignKey.Companion.NO_ACTION
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "tbl_shares",
     foreignKeys = [
         ForeignKey(
             entity = PaymentLocal::class,
             parentColumns = ["paymentId"],
             childColumns = ["paymentOwnerId"],
-            onDelete = NO_ACTION,
+            onDelete = CASCADE,
             onUpdate = CASCADE
         ),
         ForeignKey(

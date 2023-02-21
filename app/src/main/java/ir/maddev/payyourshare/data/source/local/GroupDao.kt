@@ -18,18 +18,23 @@ interface GroupDao {
     @Query("SELECT * FROM GroupLocal")
     suspend fun getAll(): List<GroupLocal>
 
-    @Query("SELECT * FROM GroupList")
+    @Query("SELECT * FROM GroupLocal")
     fun getAllStream(): Flow<List<GroupLocal>>
 
+    @Transaction
     @Query("SELECT * FROM GroupLocal")
     suspend fun getAllGroupsWithPersons(): List<GroupWithPersons>
 
+    @Transaction
     @Query("SELECT * FROM GroupLocal")
     fun getAllGroupsWithPersonsStream(): Flow<List<GroupWithPersons>>
 
+    //
+    @Transaction
     @Query("SELECT * FROM GroupLocal")
     suspend fun getAllGroupsWithPaymentsWithShares(): List<GroupWithPaymentsWithShares>
 
+    @Transaction
     @Query("SELECT * FROM GroupLocal")
     fun getAllGroupsWithPaymentsWithSharesStream(): Flow<List<GroupWithPaymentsWithShares>>
 
@@ -39,15 +44,19 @@ interface GroupDao {
     @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
     fun getByIdStream(id: Long): Flow<GroupLocal>
 
+    @Transaction
     @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
     suspend fun getByIdWithPersons(id: Long): GroupWithPersons
 
+    @Transaction
     @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
     fun getByIdWithPersonsStream(id: Long): Flow<GroupWithPersons>
 
+    @Transaction
     @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
     suspend fun getByIdWithPaymentsWithShares(id: Long): GroupWithPaymentsWithShares
 
+    @Transaction
     @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
     fun getByIdWithPaymentsWithSharesStream(id: Long): Flow<GroupWithPaymentsWithShares>
 }

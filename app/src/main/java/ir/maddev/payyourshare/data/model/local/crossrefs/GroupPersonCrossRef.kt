@@ -4,6 +4,6 @@ import androidx.room.Entity
 
 @Entity(primaryKeys = ["groupId", "personId"])
 data class GroupPersonCrossRef(
-    val groupId: Long,
-    val personId: Long
+    var groupId: Long = 0,
+    var personId: Long = 0
 )

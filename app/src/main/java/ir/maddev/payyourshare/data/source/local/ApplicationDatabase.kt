@@ -6,8 +6,13 @@ import ir.maddev.payyourshare.data.model.local.GroupLocal
 import ir.maddev.payyourshare.data.model.local.PaymentLocal
 import ir.maddev.payyourshare.data.model.local.PersonLocal
 import ir.maddev.payyourshare.data.model.local.ShareLocal
+import ir.maddev.payyourshare.data.model.local.crossrefs.GroupPersonCrossRef
 
-@Database(entities = [ShareLocal::class, PersonLocal::class, PaymentLocal::class, GroupLocal::class], version = 1)
+@Database(
+    entities = [ShareLocal::class, PersonLocal::class, PaymentLocal::class, GroupLocal::class, GroupPersonCrossRef::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class ApplicationDatabase : RoomDatabase() {
 
     abstract fun shareDao(): ShareDao

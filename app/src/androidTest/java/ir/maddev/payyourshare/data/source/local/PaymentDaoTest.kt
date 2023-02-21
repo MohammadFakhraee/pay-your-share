@@ -5,7 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import ir.maddev.payyourshare.data.model.local.PaymentLocal
-import ir.maddev.payyourshare.data.model.local.relations.PaymentWithShares
+import ir.maddev.payyourshare.data.model.local.ShareLocal
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -31,6 +31,10 @@ class PaymentDaoTest {
     @Named("payment_dao")
     lateinit var paymentDao: PaymentDao
 
+    @Inject
+    @Named("share_dao")
+    lateinit var shareDao: ShareDao
+
     @Before
     fun setup() {
         hiltRule.inject()
@@ -38,7 +42,7 @@ class PaymentDaoTest {
 
     @After
     fun shutdown() {
-        applicationDatabase.close()
+//        applicationDatabase.close()
     }
 
     @Test
@@ -62,7 +66,17 @@ class PaymentDaoTest {
 
     @Test
     fun insertPaymentWithShare() = runTest {
-        val payment = PaymentLocal(id = 1)
-        val paymentWithShares = PaymentWithShares()
+        val payment = PaymentLocal(id = 1, totalAmount = 100L)
+        val share1 = ShareLocal(id = 1, paymentOwnerId = 1, amount = 45L)
+        val share2 = ShareLocal(id = 2, paymentOwnerId = 1, amount = 55L)
+
+        paymentDao.save(payment)
+        shareDao.save(share1)
+        shareDao.save(share2)
+
+        val paymentWithShares = paymentDao.getAll()[0]
+        assertThat(paymentWithShares.paymentLocal).isEqualTo(payment)
+        assertThat(paymentWithShares.shareLocal).contains(share1)
+        assertThat(paymentWithShares.shareLocal).contains(share2)
     }
 }

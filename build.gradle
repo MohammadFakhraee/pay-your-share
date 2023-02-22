@@ -10,6 +10,7 @@ buildscript {
         junit_version = '1.1.5'
         espresso_core_version = '3.5.1'
         truth_test_version = '1.1.2'
+        core_testing_version = '1.1.1'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

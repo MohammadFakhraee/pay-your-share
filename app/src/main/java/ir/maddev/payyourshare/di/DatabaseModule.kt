@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import ir.maddev.payyourshare.core.DB_NAME
 import ir.maddev.payyourshare.data.source.local.ApplicationDatabase
 import ir.maddev.payyourshare.data.source.local.GroupDao
+import ir.maddev.payyourshare.data.source.local.PaymentDao
 import ir.maddev.payyourshare.data.source.local.ShareDao
 import javax.inject.Singleton
 
@@ -25,6 +26,10 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun provideShareDao(applicationDatabase: ApplicationDatabase): ShareDao = applicationDatabase.shareDao()
+
+    @Provides
+    @Singleton
+    fun providePaymentDao(applicationDatabase: ApplicationDatabase): PaymentDao = applicationDatabase.paymentDao()
 
     @Provides
     @Singleton

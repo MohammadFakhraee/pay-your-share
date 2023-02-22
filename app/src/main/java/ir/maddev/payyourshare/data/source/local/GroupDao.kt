@@ -29,7 +29,6 @@ interface GroupDao {
     @Query("SELECT * FROM GroupLocal")
     fun getAllGroupsWithPersonsStream(): Flow<List<GroupWithPersons>>
 
-    //
     @Transaction
     @Query("SELECT * FROM GroupLocal")
     suspend fun getAllGroupsWithPaymentsWithShares(): List<GroupWithPaymentsWithShares>

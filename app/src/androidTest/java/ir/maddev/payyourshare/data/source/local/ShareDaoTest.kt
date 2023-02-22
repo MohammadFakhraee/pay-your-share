@@ -4,6 +4,7 @@ import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import ir.maddev.payyourshare.data.model.local.PaymentLocal
 import ir.maddev.payyourshare.data.model.local.ShareLocal
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -27,6 +28,10 @@ class ShareDaoTest {
     lateinit var applicationDatabase: ApplicationDatabase
 
     @Inject
+    @Named("payment_dao")
+    lateinit var paymentDao: PaymentDao
+
+    @Inject
     @Named("share_dao")
     lateinit var shareDao: ShareDao
 
@@ -42,7 +47,9 @@ class ShareDaoTest {
 
     @Test
     fun insertShareLocal() = runTest {
-        val shareLocal = ShareLocal(id = 1, amount = 250L)
+        val paymentLocal = PaymentLocal(id = 1, totalAmount = 250)
+        paymentDao.save(paymentLocal)
+        val shareLocal = ShareLocal(id = 1, paymentOwnerId = 1, amount = 250L)
         shareDao.save(shareLocal)
 
         val allShareLocal = shareDao.getAll()

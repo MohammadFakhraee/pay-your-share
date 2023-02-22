@@ -7,5 +7,5 @@ import ir.maddev.payyourshare.data.model.local.ShareLocal
 
 data class PaymentWithShares(
     @Embedded val paymentLocal: PaymentLocal,
-    @Relation(parentColumn = "paymentId", entityColumn = "paymentOwnerId") val shareLocals: List<ShareLocal>
+    @Relation(parentColumn = "payment_id", entityColumn = "payment_owner_id") val shareLocals: List<ShareLocal>
 )

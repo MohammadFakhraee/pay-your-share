@@ -14,6 +14,6 @@ interface PaymentDao {
     suspend fun delete(paymentLocal: PaymentLocal)
 
     @Transaction
-    @Query("SELECT * FROM PaymentLocal")
+    @Query("SELECT * FROM payments")
     suspend fun getAll(): List<PaymentWithShares>
 }

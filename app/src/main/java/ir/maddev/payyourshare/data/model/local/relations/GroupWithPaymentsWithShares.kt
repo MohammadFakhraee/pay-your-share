@@ -9,7 +9,7 @@ data class GroupWithPaymentsWithShares(
     @Embedded val groupLocal: GroupLocal,
     @Relation(
         entity = PaymentLocal::class,
-        parentColumn = "groupId",
-        entityColumn = "groupOwnerId"
+        parentColumn = "group_id",
+        entityColumn = "group_owner_id"
     ) val paymentsWithShares: List<PaymentWithShares>
 )

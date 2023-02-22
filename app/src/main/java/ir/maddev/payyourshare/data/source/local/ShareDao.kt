@@ -12,6 +12,6 @@ interface ShareDao {
     @Delete
     suspend fun delete(shareLocal: ShareLocal)
 
-    @Query("SELECT * FROM ShareLocal")
+    @Query("SELECT * FROM shares")
     suspend fun getAll(): List<ShareLocal>
 }

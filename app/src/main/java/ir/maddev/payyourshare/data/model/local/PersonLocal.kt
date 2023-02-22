@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 /**
  * Person who can be added to a [GroupLocal] as a member
  */
-@Entity
+@Entity(tableName = "persons")
 data class PersonLocal(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "personId") var id: Long = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "person_id") var id: Long = 0,
     var name: String = "",
     var avatarPath: String = ""
 )

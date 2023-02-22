@@ -9,6 +9,6 @@ import ir.maddev.payyourshare.data.model.local.crossrefs.GroupPersonCrossRef
 
 data class GroupWithPersons(
     @Embedded val group: GroupLocal, @Relation(
-        parentColumn = "groupId", entityColumn = "personId", associateBy = Junction(GroupPersonCrossRef::class)
+        parentColumn = "group_id", entityColumn = "person_id", associateBy = Junction(GroupPersonCrossRef::class)
     ) val people: List<PersonLocal>
 )

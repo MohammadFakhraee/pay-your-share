@@ -15,47 +15,47 @@ interface GroupDao {
     @Delete
     suspend fun delete(groupLocal: GroupLocal)
 
-    @Query("SELECT * FROM GroupLocal")
+    @Query("SELECT * FROM groups")
     suspend fun getAll(): List<GroupLocal>
 
-    @Query("SELECT * FROM GroupLocal")
+    @Query("SELECT * FROM groups")
     fun getAllStream(): Flow<List<GroupLocal>>
 
     @Transaction
-    @Query("SELECT * FROM GroupLocal")
+    @Query("SELECT * FROM groups")
     suspend fun getAllGroupsWithPersons(): List<GroupWithPersons>
 
     @Transaction
-    @Query("SELECT * FROM GroupLocal")
+    @Query("SELECT * FROM groups")
     fun getAllGroupsWithPersonsStream(): Flow<List<GroupWithPersons>>
 
     @Transaction
-    @Query("SELECT * FROM GroupLocal")
+    @Query("SELECT * FROM groups")
     suspend fun getAllGroupsWithPaymentsWithShares(): List<GroupWithPaymentsWithShares>
 
     @Transaction
-    @Query("SELECT * FROM GroupLocal")
+    @Query("SELECT * FROM groups")
     fun getAllGroupsWithPaymentsWithSharesStream(): Flow<List<GroupWithPaymentsWithShares>>
 
-    @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
+    @Query("SELECT * FROM groups WHERE group_id = :id")
     suspend fun getById(id: Long): GroupLocal
 
-    @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
+    @Query("SELECT * FROM groups WHERE group_id = :id")
     fun getByIdStream(id: Long): Flow<GroupLocal>
 
     @Transaction
-    @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
+    @Query("SELECT * FROM groups WHERE group_id = :id")
     suspend fun getByIdWithPersons(id: Long): GroupWithPersons
 
     @Transaction
-    @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
+    @Query("SELECT * FROM groups WHERE group_id = :id")
     fun getByIdWithPersonsStream(id: Long): Flow<GroupWithPersons>
 
     @Transaction
-    @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
+    @Query("SELECT * FROM groups WHERE group_id = :id")
     suspend fun getByIdWithPaymentsWithShares(id: Long): GroupWithPaymentsWithShares
 
     @Transaction
-    @Query("SELECT * FROM GroupLocal WHERE groupId = :id")
+    @Query("SELECT * FROM groups WHERE group_id = :id")
     fun getByIdWithPaymentsWithSharesStream(id: Long): Flow<GroupWithPaymentsWithShares>
 }

@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 /**
  * Every [PersonLocal] can make a payment in a [GroupLocal].
  */
-@Entity
+@Entity(tableName = "payments")
 data class PaymentLocal(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "paymentId") var id: Long = 0,
-    var groupOwnerId: Long = 0,
-    var personOwnerId: Long = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "payment_id") var id: Long = 0,
+    @ColumnInfo("group_owner_id") var groupOwnerId: Long = 0,
+    @ColumnInfo("person_owner_id") var personOwnerId: Long = 0,
     var title: String = "",
     var description: String = "",
     var totalAmount: Long = 0

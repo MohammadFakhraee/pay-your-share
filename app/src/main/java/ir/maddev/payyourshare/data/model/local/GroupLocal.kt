@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 /**
  * A Group to create a collection of people for specific purpose
  */
-@Entity
+@Entity(tableName = "groups")
 data class GroupLocal(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "groupId") var id: Long = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "group_id") var id: Long = 0,
     var name: String = "",
     var purpose: String = "",
     var color: String = ""

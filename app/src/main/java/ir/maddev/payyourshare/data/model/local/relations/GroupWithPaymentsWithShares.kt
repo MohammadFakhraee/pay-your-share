@@ -11,5 +11,5 @@ data class GroupWithPaymentsWithShares(
         entity = PaymentLocal::class,
         parentColumn = "group_id",
         entityColumn = "group_owner_id"
-    ) val paymentsWithShares: List<PaymentWithShares>
+    ) val paymentsWithShares: List<PaymentWithSharesAndTags>
 )

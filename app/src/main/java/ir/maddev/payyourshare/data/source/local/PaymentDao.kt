@@ -2,7 +2,7 @@ package ir.maddev.payyourshare.data.source.local
 
 import androidx.room.*
 import ir.maddev.payyourshare.data.model.local.PaymentLocal
-import ir.maddev.payyourshare.data.model.local.relations.PaymentWithShares
+import ir.maddev.payyourshare.data.model.local.relations.PaymentWithSharesAndTags
 
 @Dao
 interface PaymentDao {
@@ -15,5 +15,5 @@ interface PaymentDao {
 
     @Transaction
     @Query("SELECT * FROM payments")
-    suspend fun getAll(): List<PaymentWithShares>
+    suspend fun getAll(): List<PaymentWithSharesAndTags>
 }

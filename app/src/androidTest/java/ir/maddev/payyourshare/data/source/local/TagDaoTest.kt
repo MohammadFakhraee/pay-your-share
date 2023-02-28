@@ -9,6 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -33,6 +34,11 @@ class TagDaoTest {
         hiltRule.inject()
         tagDao = applicationDatabase.tagDao()
         tagDao.saveAll(testTags)
+    }
+
+    @After
+    fun shutdown() {
+        applicationDatabase.close()
     }
 
     @Test

@@ -6,7 +6,8 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import ir.maddev.payyourshare.utils.testPayment
-import ir.maddev.payyourshare.utils.testShares1
+import ir.maddev.payyourshare.utils.testPaymentTags
+import ir.maddev.payyourshare.utils.testTags
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -16,27 +17,30 @@ import org.junit.Test
 import javax.inject.Inject
 import javax.inject.Named
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @SmallTest
 @HiltAndroidTest
-class ShareDaoTest {
+@ExperimentalCoroutinesApi
+class PaymentTagCrossRefDaoTest {
 
     @get:Rule
-    var hiltRule = HiltAndroidRule(this)
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
+    val hiltRule = HiltAndroidRule(this)
 
     @Inject
     @Named("test_db")
     lateinit var applicationDatabase: ApplicationDatabase
-    lateinit var shareDao: ShareDao
+    lateinit var paymentTagCrossRefDao: PaymentTagCrossRefDao
 
     @Before
     fun setup() = runTest {
         hiltRule.inject()
-        applicationDatabase.paymentDao().save(testPayment)
-        shareDao = applicationDatabase.shareDao().also { it.saveAll(testShares1) }
+        applicationDatabase.run {
+            paymentDao().save(testPayment)
+            tagDao().saveAll(testTags)
+        }
+        paymentTagCrossRefDao = applicationDatabase.paymentTagDao().also { it.saveAll(testPaymentTags) }
     }
 
     @After
@@ -45,19 +49,13 @@ class ShareDaoTest {
     }
 
     @Test
-    fun insertShareLocal() = runTest {
-        assertThat(shareDao.getAll()).containsExactlyElementsIn(testShares1)
+    fun insertPaymentTagCrossRef() = runTest {
+        assertThat(paymentTagCrossRefDao.getAll()).containsExactlyElementsIn(testPaymentTags)
     }
 
     @Test
-    fun deleteShareLocale() = runTest {
-        shareDao.delete(testShares1[0])
-        assertThat(shareDao.getAll()).containsExactly(testShares1[1], testShares1[2])
-    }
-
-    @Test
-    fun deleteShareLocaleById() = runTest {
-        shareDao.deleteById(testShares1[0].id)
-        assertThat(shareDao.getAll()).containsExactly(testShares1[1], testShares1[2])
+    fun deletePaymentTagsByPaymentId() = runTest {
+        paymentTagCrossRefDao.deleteByPaymentId(testPayment.id)
+        assertThat(paymentTagCrossRefDao.getAll()).isEmpty()
     }
 }

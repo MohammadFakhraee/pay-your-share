@@ -4,6 +4,7 @@ import android.graphics.Color
 import ir.maddev.payyourshare.data.model.local.PaymentLocal
 import ir.maddev.payyourshare.data.model.local.ShareLocal
 import ir.maddev.payyourshare.data.model.local.TagLocal
+import ir.maddev.payyourshare.data.model.local.crossrefs.PaymentTagCrossRef
 
 
 /**
@@ -14,6 +15,11 @@ val testPayments = arrayListOf(
     PaymentLocal(id = 2, title = "B", description = "An OS owned by google", totalAmount = 250),
     PaymentLocal(id = 3, title = "C", description = "An OS owned by google", totalAmount = 150)
 )
+
+/**
+ * Single object of [PaymentLocal] used to test individually
+ */
+val testPayment = testPayments[0]
 
 /**
  * [ShareLocal] objects used for first item at [testPayments] tests.
@@ -49,4 +55,13 @@ val testTags = arrayListOf(
     TagLocal(id = 1, title = "FastFood", color = Color.WHITE, iconPath = ""),
     TagLocal(id = 2, title = "Cinema", color = Color.BLACK, iconPath = ""),
     TagLocal(id = 3, title = "Mounting", color = Color.BLUE, iconPath = "")
+)
+
+/**
+ * [PaymentTagCrossRef] object for testing.
+ */
+val testPaymentTags = arrayListOf(
+    PaymentTagCrossRef(paymentId = 1, tagId = 1),
+    PaymentTagCrossRef(paymentId = 1, tagId = 2),
+    PaymentTagCrossRef(paymentId = 1, tagId = 3)
 )

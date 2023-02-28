@@ -5,8 +5,10 @@ import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import ir.maddev.payyourshare.data.model.local.PaymentLocal
-import ir.maddev.payyourshare.data.model.local.ShareLocal
+import ir.maddev.payyourshare.utils.testPayments
+import ir.maddev.payyourshare.utils.testShares1
+import ir.maddev.payyourshare.utils.testShares2
+import ir.maddev.payyourshare.utils.testShares3
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
@@ -32,24 +34,18 @@ class PaymentDaoTest {
     @Named("test_db")
     lateinit var applicationDatabase: ApplicationDatabase
 
-    @Inject
-    @Named("payment_dao")
     lateinit var paymentDao: PaymentDao
-
-    @Inject
-    @Named("share_dao")
     lateinit var shareDao: ShareDao
-
-    private val paymentLocal = PaymentLocal(id = 1, totalAmount = 100)
-    private val shareLocal1 = ShareLocal(id = 1, paymentOwnerId = 1, amount = 45)
-    private val shareLocal2 = ShareLocal(id = 2, paymentOwnerId = 1, amount = 55)
 
     @Before
     fun setup(): Unit = runBlocking {
         hiltRule.inject()
-        paymentDao.save(paymentLocal)
-        shareDao.save(shareLocal1)
-        shareDao.save(shareLocal2)
+        paymentDao = applicationDatabase.paymentDao()
+        shareDao = applicationDatabase.shareDao()
+
+        paymentDao.saveAll(testPayments)
+        shareDao.saveAll(testShares1 + testShares2 + testShares3)
+
     }
 
     @After
@@ -58,31 +54,27 @@ class PaymentDaoTest {
     }
 
     @Test
-    fun insertPaymentWithoutShare() = runTest {
-        val paymentLocal = PaymentLocal(id = 1)
-        paymentDao.save(paymentLocal)
-
-        val allPayments = paymentDao.getAll()
-        assertThat(allPayments[0].paymentLocal).isEqualTo(paymentLocal)
+    fun insertPayment() = runTest {
+        assertThat(paymentDao.getAll().size).isEqualTo(3)
     }
 
     @Test
-    fun removePaymentWithoutShare() = runTest {
-        val paymentLocal = PaymentLocal(id = 1)
-        paymentDao.save(paymentLocal)
-        paymentDao.delete(paymentLocal)
-
-        val allPayments = paymentDao.getAll()
-        assertThat(allPayments).isEmpty()
+    fun deletePayment() = runTest {
+        paymentDao.delete(testPayments[0])
+        assertThat(paymentDao.getAll().size).isEqualTo(2)
     }
 
     @Test
-    fun insertPaymentWithShares() = runBlocking {
+    fun deleteById() = runTest {
+        paymentDao.deleteById(testPayments[0].id)
+        assertThat(paymentDao.getAll().size).isEqualTo(2)
+    }
+
+    @Test
+    fun getPaymentWithShares() = runTest {
         val paymentWithShares = paymentDao.getAll()[0]
-        assertThat(paymentWithShares.paymentLocal).isEqualTo(paymentLocal)
+        assertThat(paymentWithShares.paymentLocal).isEqualTo(testPayments[0])
         val shareLocals = paymentWithShares.shareLocals
-        assertThat(shareLocals).contains(shareLocal1)
-        assertThat(shareLocals).contains(shareLocal2)
-        assertThat(shareLocals.sumOf { it.amount }).isEqualTo(paymentLocal.totalAmount)
+        assertThat(shareLocals).containsExactlyElementsIn(testShares1)
     }
 }

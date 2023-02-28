@@ -26,18 +26,14 @@ class ShareDaoTest {
     @Inject
     @Named("test_db")
     lateinit var applicationDatabase: ApplicationDatabase
-
-    @Inject
-    @Named("payment_dao")
     lateinit var paymentDao: PaymentDao
-
-    @Inject
-    @Named("share_dao")
     lateinit var shareDao: ShareDao
 
     @Before
     fun setup() {
         hiltRule.inject()
+        paymentDao = applicationDatabase.paymentDao()
+        shareDao = applicationDatabase.shareDao()
     }
 
     @After

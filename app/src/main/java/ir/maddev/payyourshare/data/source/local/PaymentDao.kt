@@ -10,8 +10,14 @@ interface PaymentDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(paymentLocal: PaymentLocal): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveAll(payments: List<PaymentLocal>)
+
     @Delete
     suspend fun delete(paymentLocal: PaymentLocal)
+
+    @Query("DELETE FROM payments WHERE payment_id = :id")
+    suspend fun deleteById(id: Long)
 
     @Transaction
     @Query("SELECT * FROM payments")

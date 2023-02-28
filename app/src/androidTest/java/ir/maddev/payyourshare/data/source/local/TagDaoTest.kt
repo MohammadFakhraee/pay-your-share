@@ -27,7 +27,7 @@ class TagDaoTest {
     @Inject
     @Named("test_db")
     lateinit var applicationDatabase: ApplicationDatabase
-    lateinit var tagDao: TagDao
+    private lateinit var tagDao: TagDao
 
     @Before
     fun setup(): Unit = runBlocking {

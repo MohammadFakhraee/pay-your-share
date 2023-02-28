@@ -4,17 +4,11 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 
 @Entity(
-    tableName = "shares",
-    foreignKeys = [
-        ForeignKey(
-            entity = PaymentLocal::class,
-            parentColumns = ["payment_id"],
-            childColumns = ["payment_owner_id"],
-            onDelete = CASCADE,
-            onUpdate = CASCADE
-        )
-    ],
-    indices = [Index("payment_owner_id")]
+    tableName = "shares", foreignKeys = [ForeignKey(
+        entity = PaymentLocal::class, parentColumns = ["payment_id"], childColumns = ["payment_owner_id"], onDelete = CASCADE, onUpdate = CASCADE
+    ), ForeignKey(
+        entity = PersonLocal::class, parentColumns = ["person_id"], childColumns = ["person_owner_id"], onDelete = CASCADE, onUpdate = CASCADE
+    )], indices = [Index("payment_owner_id"), Index("person_owner_id")]
 )
 data class ShareLocal(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "share_id") var id: Long = 0,

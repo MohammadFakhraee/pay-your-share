@@ -7,6 +7,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import ir.maddev.payyourshare.utils.testPayment
 import ir.maddev.payyourshare.utils.testPaymentTags
+import ir.maddev.payyourshare.utils.testPersons
 import ir.maddev.payyourshare.utils.testTags
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -37,6 +38,7 @@ class PaymentTagCrossRefDaoTest {
     fun setup() = runTest {
         hiltRule.inject()
         applicationDatabase.run {
+            personDao().saveAll(testPersons)
             paymentDao().save(testPayment)
             tagDao().saveAll(testTags)
         }

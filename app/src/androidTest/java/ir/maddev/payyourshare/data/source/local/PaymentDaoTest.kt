@@ -30,21 +30,17 @@ class PaymentDaoTest {
     @Inject
     @Named("test_db")
     lateinit var applicationDatabase: ApplicationDatabase
-
-    lateinit var paymentDao: PaymentDao
-    lateinit var shareDao: ShareDao
-    lateinit var tagDao: TagDao
-    lateinit var paymentTagCrossRefDao: PaymentTagCrossRefDao
+    private lateinit var paymentDao: PaymentDao
 
     @Before
     fun setup(): Unit = runBlocking {
         hiltRule.inject()
         paymentDao = applicationDatabase.paymentDao()
+        applicationDatabase.personDao().saveAll(testPersons)
         paymentDao.saveAll(testPayments)
-        applicationDatabase.shareDao().saveAll(testShares1 + testShares2 + testShares3)
+        applicationDatabase.shareDao().saveAll(testShareAll)
         applicationDatabase.tagDao().saveAll(testTags)
         applicationDatabase.paymentTagDao().saveAll(testPaymentTags)
-
     }
 
     @After

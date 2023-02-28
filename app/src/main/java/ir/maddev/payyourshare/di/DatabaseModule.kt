@@ -39,4 +39,8 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun providePaymentTagDao(applicationDatabase: ApplicationDatabase): PaymentTagCrossRefDao = applicationDatabase.paymentTagDao()
+
+    @Provides
+    @Singleton
+    fun providePersonDao(applicationDatabase: ApplicationDatabase): PersonDao = applicationDatabase.personDao()
 }

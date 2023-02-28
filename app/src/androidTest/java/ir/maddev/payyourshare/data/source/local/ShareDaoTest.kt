@@ -5,9 +5,7 @@ import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import ir.maddev.payyourshare.utils.testPayment
-import ir.maddev.payyourshare.utils.testPersons
-import ir.maddev.payyourshare.utils.testShares1
+import ir.maddev.payyourshare.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -36,6 +34,17 @@ class ShareDaoTest {
     @Before
     fun setup() = runTest {
         hiltRule.inject()
+
+        applicationDatabase.run {
+            personDao().saveAll(testPersons)
+            groupDao().saveAll(testGroups)
+            groupPersonDao().saveAll(testGroupPersons)
+            paymentDao().saveAll(testPayments)
+            shareDao().saveAll(testShareAll)
+
+            shareDao = shareDao()
+        }
+
         applicationDatabase.personDao().saveAll(testPersons)
         applicationDatabase.paymentDao().save(testPayment)
         shareDao = applicationDatabase.shareDao().also { it.saveAll(testShares1) }

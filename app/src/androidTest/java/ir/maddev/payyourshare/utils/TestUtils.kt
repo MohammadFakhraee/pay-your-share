@@ -1,10 +1,8 @@
 package ir.maddev.payyourshare.utils
 
 import android.graphics.Color
-import ir.maddev.payyourshare.data.model.local.PaymentLocal
-import ir.maddev.payyourshare.data.model.local.PersonLocal
-import ir.maddev.payyourshare.data.model.local.ShareLocal
-import ir.maddev.payyourshare.data.model.local.TagLocal
+import ir.maddev.payyourshare.data.model.local.*
+import ir.maddev.payyourshare.data.model.local.crossrefs.GroupPersonCrossRef
 import ir.maddev.payyourshare.data.model.local.crossrefs.PaymentTagCrossRef
 
 /**
@@ -22,12 +20,35 @@ val testPersons = arrayListOf(
 val testPerson = testPersons[0]
 
 /**
+ * [GroupLocal] objects used for tests.
+ */
+val testGroups = arrayListOf(
+    GroupLocal(id = 1, name = "Trip", purpose = "Mounting", color = Color.GREEN),
+    GroupLocal(id = 2, name = "Trip", purpose = "Jungle", color = Color.GRAY),
+    GroupLocal(id = 3, name = "University", purpose = "Dinners", color = Color.RED)
+)
+
+/**
+ * Single object of [GroupLocal] used to test individually.
+ */
+val testGroup = testGroups[0]
+
+/**
+ * [GroupPersonCrossRef] object used for tests
+ */
+val testGroupPersons = arrayListOf(
+    GroupPersonCrossRef(groupId = 1, personId = 1),
+    GroupPersonCrossRef(groupId = 1, personId = 2),
+    GroupPersonCrossRef(groupId = 1, personId = 3)
+)
+
+/**
  * [PaymentLocal] objects used for tests.
  */
 val testPayments = arrayListOf(
-    PaymentLocal(id = 1, personOwnerId = 1, title = "Android", description = "An OS owned by google", totalAmount = 100),
-    PaymentLocal(id = 2, personOwnerId = 1, title = "B", description = "An OS owned by google", totalAmount = 250),
-    PaymentLocal(id = 3, personOwnerId = 1, title = "C", description = "An OS owned by google", totalAmount = 150)
+    PaymentLocal(id = 1, personOwnerId = 1, groupOwnerId = 1, title = "Android", description = "An OS owned by google", totalAmount = 100),
+    PaymentLocal(id = 2, personOwnerId = 1, groupOwnerId = 1, title = "B", description = "For B", totalAmount = 250),
+    PaymentLocal(id = 3, personOwnerId = 1, groupOwnerId = 1, title = "C", description = "For C", totalAmount = 150)
 )
 
 /**

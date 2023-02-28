@@ -43,4 +43,8 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun providePersonDao(applicationDatabase: ApplicationDatabase): PersonDao = applicationDatabase.personDao()
+
+    @Provides
+    @Singleton
+    fun provideGroupPersonDao(applicationDatabase: ApplicationDatabase): GroupPersonCrossRefDao = applicationDatabase.groupPersonDao()
 }

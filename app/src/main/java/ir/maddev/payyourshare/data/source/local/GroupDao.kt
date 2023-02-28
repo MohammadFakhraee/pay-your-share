@@ -12,6 +12,9 @@ interface GroupDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(groupLocal: GroupLocal): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveAll(groupLocals: List<GroupLocal>)
+
     @Delete
     suspend fun delete(groupLocal: GroupLocal)
 
@@ -42,6 +45,9 @@ interface GroupDao {
 
     @Query("SELECT * FROM groups WHERE group_id = :id")
     fun getByIdStream(id: Long): Flow<GroupLocal>
+
+    @Query("DELETE FROM groups WHERE group_id = :id")
+    suspend fun deleteById(id: Long)
 
     @Transaction
     @Query("SELECT * FROM groups WHERE group_id = :id")

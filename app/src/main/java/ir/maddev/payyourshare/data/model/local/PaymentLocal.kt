@@ -10,8 +10,9 @@ import androidx.room.ForeignKey.CASCADE
 @Entity(
     tableName = "payments", foreignKeys = [ForeignKey(
         entity = PersonLocal::class, parentColumns = ["person_id"], childColumns = ["person_owner_id"], onDelete = CASCADE, onUpdate = CASCADE
-    )],
-    indices = [Index("person_owner_id")]
+    ), ForeignKey(
+        entity = GroupLocal::class, parentColumns = ["group_id"], childColumns = ["group_owner_id"], onDelete = CASCADE, onUpdate = CASCADE
+    )], indices = [Index("person_owner_id"), Index("group_owner_id")]
 )
 data class PaymentLocal(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "payment_id") var id: Long = 0,

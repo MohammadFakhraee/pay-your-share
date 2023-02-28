@@ -7,7 +7,6 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import ir.maddev.payyourshare.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -33,14 +32,20 @@ class PaymentDaoTest {
     private lateinit var paymentDao: PaymentDao
 
     @Before
-    fun setup(): Unit = runBlocking {
+    fun setup() = runTest {
         hiltRule.inject()
-        paymentDao = applicationDatabase.paymentDao()
-        applicationDatabase.personDao().saveAll(testPersons)
-        paymentDao.saveAll(testPayments)
-        applicationDatabase.shareDao().saveAll(testShareAll)
-        applicationDatabase.tagDao().saveAll(testTags)
-        applicationDatabase.paymentTagDao().saveAll(testPaymentTags)
+
+        applicationDatabase.run {
+            personDao().saveAll(testPersons)
+            groupDao().saveAll(testGroups)
+            groupPersonDao().saveAll(testGroupPersons)
+            paymentDao().saveAll(testPayments)
+            shareDao().saveAll(testShareAll)
+            tagDao().saveAll(testTags)
+            paymentTagDao().saveAll(testPaymentTags)
+
+            paymentDao = paymentDao()
+        }
     }
 
     @After

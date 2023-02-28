@@ -35,12 +35,18 @@ class PersonDaoTest {
     @Before
     fun setup() = runTest {
         hiltRule.inject()
-        personDao = applicationDatabase.personDao()
-        personDao.saveAll(testPersons)
-        applicationDatabase.paymentDao().saveAll(testPayments)
-        applicationDatabase.shareDao().saveAll(testShareAll)
-        applicationDatabase.tagDao().saveAll(testTags)
-        applicationDatabase.paymentTagDao().saveAll(testPaymentTags)
+
+        applicationDatabase.run {
+            personDao().saveAll(testPersons)
+            groupDao().saveAll(testGroups)
+            groupPersonDao().saveAll(testGroupPersons)
+            paymentDao().saveAll(testPayments)
+            shareDao().saveAll(testShareAll)
+            tagDao().saveAll(testTags)
+            paymentTagDao().saveAll(testPaymentTags)
+
+            personDao = personDao()
+        }
     }
 
     @After

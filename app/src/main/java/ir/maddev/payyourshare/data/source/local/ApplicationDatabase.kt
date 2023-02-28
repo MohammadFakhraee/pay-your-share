@@ -24,4 +24,6 @@ abstract class ApplicationDatabase : RoomDatabase() {
     abstract fun paymentTagDao(): PaymentTagCrossRefDao
 
     abstract fun personDao(): PersonDao
+
+    abstract fun groupPersonDao(): GroupPersonCrossRefDao
 }

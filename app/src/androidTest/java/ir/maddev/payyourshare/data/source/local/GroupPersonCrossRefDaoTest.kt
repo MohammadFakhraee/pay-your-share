@@ -18,7 +18,7 @@ import javax.inject.Named
 @SmallTest
 @HiltAndroidTest
 @ExperimentalCoroutinesApi
-class PaymentTagCrossRefDaoTest {
+class GroupPersonCrossRefDaoTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -29,7 +29,7 @@ class PaymentTagCrossRefDaoTest {
     @Inject
     @Named("test_db")
     lateinit var applicationDatabase: ApplicationDatabase
-    lateinit var paymentTagCrossRefDao: PaymentTagCrossRefDao
+    private lateinit var groupPersonCrossRefDao: GroupPersonCrossRefDao
 
     @Before
     fun setup() = runTest {
@@ -37,28 +37,37 @@ class PaymentTagCrossRefDaoTest {
         applicationDatabase.run {
             personDao().saveAll(testPersons)
             groupDao().saveAll(testGroups)
-            groupPersonDao().saveAll(testGroupPersons)
-            paymentDao().save(testPayment)
-            tagDao().saveAll(testTags)
-            paymentTagDao().saveAll(testPaymentTags)
-
-            paymentTagCrossRefDao = paymentTagDao()
+            groupPersonCrossRefDao = groupPersonDao().also { it.saveAll(testGroupPersons) }
         }
     }
 
     @After
     fun shutdown() {
         applicationDatabase.close()
+
     }
 
     @Test
-    fun insertPaymentTagCrossRef() = runTest {
-        assertThat(paymentTagCrossRefDao.getAll()).containsExactlyElementsIn(testPaymentTags)
+    fun getAll() = runTest {
+        assertThat(groupPersonCrossRefDao.getAll()).containsExactlyElementsIn(testGroupPersons)
     }
 
     @Test
-    fun deletePaymentTagsByPaymentId() = runTest {
-        paymentTagCrossRefDao.deleteByPaymentId(testPayment.id)
-        assertThat(paymentTagCrossRefDao.getAll()).isEmpty()
+    fun delete() = runTest {
+        groupPersonCrossRefDao.delete(testGroupPersons[0])
+        assertThat(groupPersonCrossRefDao.getAll()).containsExactly(testGroupPersons[1], testGroupPersons[2])
+    }
+
+    @Test
+    fun deleteByGroupId() = runTest {
+        groupPersonCrossRefDao.deleteByGroupId(testGroup.id)
+        assertThat(groupPersonCrossRefDao.getAll()).isEmpty()
+    }
+
+    @Test
+    fun deleteByPersonId() = runTest {
+        groupPersonCrossRefDao.deleteByPersonId(testPerson.id)
+        val allGroupPersons = groupPersonCrossRefDao.getAll()
+        assertThat(allGroupPersons).containsExactlyElementsIn(testGroupPersons.filter { it.personId != testPerson.id })
     }
 }

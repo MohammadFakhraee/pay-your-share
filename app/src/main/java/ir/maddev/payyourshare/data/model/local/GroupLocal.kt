@@ -1,5 +1,6 @@
 package ir.maddev.payyourshare.data.model.local
 
+import android.graphics.Color
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -12,7 +13,7 @@ data class GroupLocal(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "group_id") var id: Long = 0,
     var name: String = "",
     var purpose: String = "",
-    var color: String = ""
+    var color: Int = Color.WHITE
 ) {
     companion object {
         fun createEmptyInstance() = GroupLocal()

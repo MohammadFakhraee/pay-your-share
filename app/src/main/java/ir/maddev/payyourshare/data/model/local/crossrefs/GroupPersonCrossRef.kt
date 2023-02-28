@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 
 @Entity(
+    tableName = "group_person",
     primaryKeys = ["group_id", "person_id"],
     indices = [
         Index(

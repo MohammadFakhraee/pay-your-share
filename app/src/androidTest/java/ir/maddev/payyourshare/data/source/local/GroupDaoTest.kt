@@ -30,7 +30,7 @@ class GroupDaoTest {
     @Inject
     @Named("test_db")
     lateinit var applicationDatabase: ApplicationDatabase
-    lateinit var groupDao: GroupDao
+    private lateinit var groupDao: GroupDao
 
     @Before
     fun setup() = runTest {
@@ -64,6 +64,16 @@ class GroupDaoTest {
     }
 
     @Test
+    fun getById() = runTest {
+        assertThat(groupDao.getById(testGroup.id)).isEqualTo(testGroup)
+    }
+
+    @Test
+    fun getByIdStream() = runTest {
+        assertThat(groupDao.getByIdStream(testGroup.id).first()).isEqualTo(testGroup)
+    }
+
+    @Test
     fun delete() = runTest {
         groupDao.delete(testGroup)
         assertThat(groupDao.getAll()).containsExactlyElementsIn(testGroups.filter { it.id != testGroup.id })
@@ -85,5 +95,41 @@ class GroupDaoTest {
     fun getAllGroupsWithPersonsStream() = runTest {
         val allGroupsWithPersons = groupDao.getAllGroupsWithPersonsStream().first()
         assertThat(allGroupsWithPersons).isEqualTo(testAllGroupsWithPersons)
+    }
+
+    @Test
+    fun getByIdWithPersons() = runTest {
+        val groupWithPersons = groupDao.getByIdWithPersons(testGroup.id)
+        assertThat(groupWithPersons).isEqualTo(testAllGroupsWithPersons[0])
+    }
+
+    @Test
+    fun getByIdWithPersonsStream() = runTest {
+        val groupWithPersons = groupDao.getByIdWithPersonsStream(testGroup.id).first()
+        assertThat(groupWithPersons).isEqualTo(testAllGroupsWithPersons[0])
+    }
+
+    @Test
+    fun getAllGroupsWithPaymentsWithShares() = runTest {
+        val allGroupsWithPayments = groupDao.getAllGroupsWithPaymentsWithShares()
+        assertThat(allGroupsWithPayments).isEqualTo(testAllGroupsWithPaymentsWithSharesAndTags)
+    }
+
+    @Test
+    fun getAllGroupsWithPaymentsWithSharesStream() = runTest {
+        val allGroupsWithPayments = groupDao.getAllGroupsWithPaymentsWithSharesStream().first()
+        assertThat(allGroupsWithPayments).isEqualTo(testAllGroupsWithPaymentsWithSharesAndTags)
+    }
+
+    @Test
+    fun getByIdWithPaymentsWithShares() = runTest {
+        val groupWithPayments = groupDao.getByIdWithPaymentsWithShares(testGroup.id)
+        assertThat(groupWithPayments).isEqualTo(testAllGroupsWithPaymentsWithSharesAndTags[0])
+    }
+
+    @Test
+    fun getByIdWithPaymentsWithSharesStream() = runTest {
+        val groupWithPayments = groupDao.getByIdWithPaymentsWithSharesStream(testGroup.id).first()
+        assertThat(groupWithPayments).isEqualTo(testAllGroupsWithPaymentsWithSharesAndTags[0])
     }
 }

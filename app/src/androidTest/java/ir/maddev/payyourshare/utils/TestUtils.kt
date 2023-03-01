@@ -4,6 +4,7 @@ import android.graphics.Color
 import ir.maddev.payyourshare.data.model.local.*
 import ir.maddev.payyourshare.data.model.local.crossrefs.GroupPersonCrossRef
 import ir.maddev.payyourshare.data.model.local.crossrefs.PaymentTagCrossRef
+import ir.maddev.payyourshare.data.model.local.relations.GroupWithPaymentsWithShares
 import ir.maddev.payyourshare.data.model.local.relations.GroupWithPersons
 import ir.maddev.payyourshare.data.model.local.relations.PaymentWithSharesAndTags
 import ir.maddev.payyourshare.data.model.local.relations.PersonWithPaymentsWithSharesAndTags
@@ -136,10 +137,19 @@ val testAllPersonsWithPaymentWithSharesAndTags = arrayListOf(
 )
 
 /**
- * [GroupWithPersons] object for testing [GroupLocal] and [PersonLocal] relation.
+ * List of [GroupWithPersons] object for testing [GroupLocal] and [PersonLocal] relation.
  */
 val testAllGroupsWithPersons = arrayListOf(
     GroupWithPersons(group = testGroup, people = testPersons),
     GroupWithPersons(group = testGroups[1], people = arrayListOf()),
     GroupWithPersons(group = testGroups[2], people = arrayListOf()),
+)
+
+/**
+ * List of [GroupWithPaymentsWithShares] object for testing [GroupLocal] and [PaymentWithSharesAndTags] relation.
+ */
+val testAllGroupsWithPaymentsWithSharesAndTags = arrayListOf(
+    GroupWithPaymentsWithShares(groupLocal = testGroup, paymentsWithShares = testAllPaymentWithSharesAndTags),
+    GroupWithPaymentsWithShares(groupLocal = testGroups[1], paymentsWithShares = arrayListOf()),
+    GroupWithPaymentsWithShares(groupLocal = testGroups[2], paymentsWithShares = arrayListOf())
 )

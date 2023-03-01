@@ -4,6 +4,9 @@ import android.graphics.Color
 import ir.maddev.payyourshare.data.model.local.*
 import ir.maddev.payyourshare.data.model.local.crossrefs.GroupPersonCrossRef
 import ir.maddev.payyourshare.data.model.local.crossrefs.PaymentTagCrossRef
+import ir.maddev.payyourshare.data.model.local.relations.GroupWithPersons
+import ir.maddev.payyourshare.data.model.local.relations.PaymentWithSharesAndTags
+import ir.maddev.payyourshare.data.model.local.relations.PersonWithPaymentsWithSharesAndTags
 
 /**
  * [PersonLocal] objects used for tests.
@@ -101,7 +104,42 @@ val testTags = arrayListOf(
  * [PaymentTagCrossRef] object for testing.
  */
 val testPaymentTags = arrayListOf(
-    PaymentTagCrossRef(paymentId = 1, tagId = 1),
-    PaymentTagCrossRef(paymentId = 1, tagId = 2),
-    PaymentTagCrossRef(paymentId = 1, tagId = 3)
+    PaymentTagCrossRef(paymentId = 1, tagId = 1), PaymentTagCrossRef(paymentId = 1, tagId = 2), PaymentTagCrossRef(paymentId = 1, tagId = 3)
+)
+
+/**
+ * [PaymentWithSharesAndTags] object for testing [PaymentLocal], [ShareLocal] and [TagLocal] relation.
+ */
+val testAllPaymentWithSharesAndTags = arrayListOf(
+    PaymentWithSharesAndTags(
+        paymentLocal = testPayments[0], shareLocals = testShares1, tags = testTags
+    ), PaymentWithSharesAndTags(
+        paymentLocal = testPayments[1], shareLocals = testShares2, tags = arrayListOf()
+    ), PaymentWithSharesAndTags(
+        paymentLocal = testPayments[2], shareLocals = testShares3, tags = arrayListOf()
+    )
+)
+
+/**
+ * List of [PersonWithPaymentsWithSharesAndTags] objects for test [PersonLocal] and [PaymentWithSharesAndTags] relation.
+ */
+val testAllPersonsWithPaymentWithSharesAndTags = arrayListOf(
+    PersonWithPaymentsWithSharesAndTags(
+        personLocal = testPerson, paymentsWithSharesAndTags = testAllPaymentWithSharesAndTags
+    ),
+    PersonWithPaymentsWithSharesAndTags(
+        personLocal = testPersons[1], paymentsWithSharesAndTags = arrayListOf()
+    ),
+    PersonWithPaymentsWithSharesAndTags(
+        personLocal = testPersons[2], paymentsWithSharesAndTags = arrayListOf()
+    ),
+)
+
+/**
+ * [GroupWithPersons] object for testing [GroupLocal] and [PersonLocal] relation.
+ */
+val testAllGroupsWithPersons = arrayListOf(
+    GroupWithPersons(group = testGroup, people = testPersons),
+    GroupWithPersons(group = testGroups[1], people = arrayListOf()),
+    GroupWithPersons(group = testGroups[2], people = arrayListOf()),
 )

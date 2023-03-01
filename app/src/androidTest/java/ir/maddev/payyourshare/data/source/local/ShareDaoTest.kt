@@ -44,10 +44,6 @@ class ShareDaoTest {
 
             shareDao = shareDao()
         }
-
-        applicationDatabase.personDao().saveAll(testPersons)
-        applicationDatabase.paymentDao().save(testPayment)
-        shareDao = applicationDatabase.shareDao().also { it.saveAll(testShares1) }
     }
 
     @After
@@ -56,19 +52,19 @@ class ShareDaoTest {
     }
 
     @Test
-    fun insertShareLocal() = runTest {
-        assertThat(shareDao.getAll()).containsExactlyElementsIn(testShares1)
+    fun getAll() = runTest {
+        assertThat(shareDao.getAll()).containsExactlyElementsIn(testShareAll)
     }
 
     @Test
-    fun deleteShareLocale() = runTest {
+    fun delete() = runTest {
         shareDao.delete(testShares1[0])
-        assertThat(shareDao.getAll()).containsExactly(testShares1[1], testShares1[2])
+        assertThat(shareDao.getAll()).containsExactlyElementsIn(testShareAll.filter { it.id != testShares1[0].id })
     }
 
     @Test
-    fun deleteShareLocaleById() = runTest {
+    fun deleteById() = runTest {
         shareDao.deleteById(testShares1[0].id)
-        assertThat(shareDao.getAll()).containsExactly(testShares1[1], testShares1[2])
+        assertThat(shareDao.getAll()).containsExactlyElementsIn(testShareAll.filter { it.id != testShares1[0].id })
     }
 }

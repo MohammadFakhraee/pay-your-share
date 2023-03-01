@@ -19,7 +19,10 @@ interface PaymentDao {
     @Query("DELETE FROM payments WHERE payment_id = :id")
     suspend fun deleteById(id: Long)
 
+    @Query("SELECT * FROM payments")
+    suspend fun getAll(): List<PaymentLocal>
+
     @Transaction
     @Query("SELECT * FROM payments")
-    suspend fun getAll(): List<PaymentWithSharesAndTags>
+    suspend fun getAllPaymentsWithSharesAndTags(): List<PaymentWithSharesAndTags>
 }

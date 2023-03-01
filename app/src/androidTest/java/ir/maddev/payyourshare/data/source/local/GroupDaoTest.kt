@@ -7,6 +7,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import ir.maddev.payyourshare.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -18,33 +19,32 @@ import javax.inject.Named
 @SmallTest
 @HiltAndroidTest
 @ExperimentalCoroutinesApi
-class PaymentDaoTest {
+class GroupDaoTest {
 
     @get:Rule
-    var hiltRule = HiltAndroidRule(this)
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
+    val hiltRule = HiltAndroidRule(this)
 
     @Inject
     @Named("test_db")
     lateinit var applicationDatabase: ApplicationDatabase
-    private lateinit var paymentDao: PaymentDao
+    lateinit var groupDao: GroupDao
 
     @Before
     fun setup() = runTest {
         hiltRule.inject()
-
         applicationDatabase.run {
-            personDao().saveAll(testPersons)
             groupDao().saveAll(testGroups)
+            personDao().saveAll(testPersons)
             groupPersonDao().saveAll(testGroupPersons)
             paymentDao().saveAll(testPayments)
             shareDao().saveAll(testShareAll)
             tagDao().saveAll(testTags)
             paymentTagDao().saveAll(testPaymentTags)
 
-            paymentDao = paymentDao()
+            groupDao = groupDao()
         }
     }
 
@@ -54,25 +54,36 @@ class PaymentDaoTest {
     }
 
     @Test
-    fun insertPayment() = runTest {
-        assertThat(paymentDao.getAll()).containsExactlyElementsIn(testPayments)
+    fun getAll() = runTest {
+        assertThat(groupDao.getAll()).containsExactlyElementsIn(testGroups)
+    }
+
+    @Test
+    fun getAllStream() = runTest {
+        assertThat(groupDao.getAllStream().first()).containsExactlyElementsIn(testGroups)
     }
 
     @Test
     fun delete() = runTest {
-        paymentDao.delete(testPayment)
-        assertThat(paymentDao.getAll()).containsExactlyElementsIn(testPayments.filter { it.id != testPayment.id })
+        groupDao.delete(testGroup)
+        assertThat(groupDao.getAll()).containsExactlyElementsIn(testGroups.filter { it.id != testGroup.id })
     }
 
     @Test
     fun deleteById() = runTest {
-        paymentDao.deleteById(testPayment.id)
-        assertThat(paymentDao.getAll()).containsExactlyElementsIn(testPayments.filter { it.id != testPayment.id })
+        groupDao.deleteById(testGroup.id)
+        assertThat(groupDao.getAll()).containsExactlyElementsIn(testGroups.filter { it.id != testGroup.id })
     }
 
     @Test
-    fun getAllPaymentsWithSharesAndTags() = runTest {
-        val allPaymentsWithShares = paymentDao.getAllPaymentsWithSharesAndTags()
-        assertThat(allPaymentsWithShares).isEqualTo(testAllPaymentWithSharesAndTags)
+    fun getAllGroupsWithPersons() = runTest {
+        val allGroupsWithPersons = groupDao.getAllGroupsWithPersons()
+        assertThat(allGroupsWithPersons).isEqualTo(testAllGroupsWithPersons)
+    }
+
+    @Test
+    fun getAllGroupsWithPersonsStream() = runTest {
+        val allGroupsWithPersons = groupDao.getAllGroupsWithPersonsStream().first()
+        assertThat(allGroupsWithPersons).isEqualTo(testAllGroupsWithPersons)
     }
 }

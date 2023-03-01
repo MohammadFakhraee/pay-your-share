@@ -79,54 +79,24 @@ class PersonDaoTest {
     @Test
     fun getAllPersonsWithPaymentsWithSharesAndTags() = runTest {
         val allPersonWithPayments = personDao.getAllPersonsWithPaymentsWithSharesAndTags()
-        assertThat(allPersonWithPayments.size).isEqualTo(testPersons.size)
-
-        val personWithPayment = allPersonWithPayments[0]
-        assertThat(personWithPayment.personLocal).isEqualTo(testPerson)
-        assertThat(personWithPayment.paymentsWithSharesAndTags.size).isEqualTo(testPayments.size)
-
-        val paymentWithSharesAndTags = personWithPayment.paymentsWithSharesAndTags[0]
-        assertThat(paymentWithSharesAndTags.paymentLocal).isEqualTo(testPayment)
-        assertThat(paymentWithSharesAndTags.tags).containsExactlyElementsIn(testTags)
-        assertThat(paymentWithSharesAndTags.shareLocals).containsExactlyElementsIn(testShares1)
+        assertThat(allPersonWithPayments).isEqualTo(testAllPersonsWithPaymentWithSharesAndTags)
     }
 
     @Test
     fun getAllPersonsWithPaymentsWithSharesAndTagsStream() = runTest {
         val allPersonWithPayments = personDao.getAllPersonsWithPaymentsWithSharesAndTagsStream().first()
-        assertThat(allPersonWithPayments.size).isEqualTo(testPersons.size)
-
-        val personWithPayment = allPersonWithPayments[0]
-        assertThat(personWithPayment.personLocal).isEqualTo(testPerson)
-        assertThat(personWithPayment.paymentsWithSharesAndTags.size).isEqualTo(testPayments.size)
-
-        val paymentWithSharesAndTags = personWithPayment.paymentsWithSharesAndTags[0]
-        assertThat(paymentWithSharesAndTags.paymentLocal).isEqualTo(testPayment)
-        assertThat(paymentWithSharesAndTags.tags).containsExactlyElementsIn(testTags)
-        assertThat(paymentWithSharesAndTags.shareLocals).containsExactlyElementsIn(testShares1)
+        assertThat(allPersonWithPayments).isEqualTo(testAllPersonsWithPaymentWithSharesAndTags)
     }
 
     @Test
     fun getPersonWithPaymentsWithSharesAndTagsById() = runTest {
         val personWithPayment = personDao.getPersonWithPaymentsWithSharesAndTagsById(testPerson.id)
-        assertThat(personWithPayment.personLocal).isEqualTo(testPerson)
-        assertThat(personWithPayment.paymentsWithSharesAndTags.size).isEqualTo(testPayments.size)
-
-        val paymentWithSharesAndTags = personWithPayment.paymentsWithSharesAndTags[0]
-        assertThat(paymentWithSharesAndTags.paymentLocal).isEqualTo(testPayment)
-        assertThat(paymentWithSharesAndTags.tags).containsExactlyElementsIn(testTags)
-        assertThat(paymentWithSharesAndTags.shareLocals).containsExactlyElementsIn(testShares1)
+        assertThat(personWithPayment).isEqualTo(testAllPersonsWithPaymentWithSharesAndTags[0])
     }
 
     @Test
     fun getPersonWithPaymentsWithSharesAndTagsByIdStream() = runTest {
         val personWithPayment = personDao.getPersonWithPaymentsWithSharesAndTagsByIdStream(testPerson.id).first()
-        assertThat(personWithPayment.personLocal).isEqualTo(testPerson)
-        assertThat(personWithPayment.paymentsWithSharesAndTags.size).isEqualTo(testPayments.size)
-
-        val paymentWithSharesAndTags = personWithPayment.paymentsWithSharesAndTags[0]
-        assertThat(paymentWithSharesAndTags.paymentLocal).isEqualTo(testPayment)
-        assertThat(paymentWithSharesAndTags.tags).containsExactlyElementsIn(testTags)
-        assertThat(paymentWithSharesAndTags.shareLocals).containsExactlyElementsIn(testShares1)
+        assertThat(personWithPayment).isEqualTo(testAllPersonsWithPaymentWithSharesAndTags[0])
     }
 }

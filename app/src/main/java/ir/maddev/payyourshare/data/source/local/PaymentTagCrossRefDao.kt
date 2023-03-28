@@ -24,6 +24,10 @@ interface PaymentTagCrossRefDao {
     @Query("DELETE FROM payment_tag WHERE payment_id = :id")
     suspend fun deleteByPaymentId(id: Long)
 
+    // todo: Add deleteByTagId function
+
+    // todo: Add deleteByPaymentAndTagId function
+
     @Query("SELECT * FROM payment_tag")
     suspend fun getAll(): List<PaymentTagCrossRef>
 }

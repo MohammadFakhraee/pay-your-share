@@ -29,6 +29,8 @@ interface GroupPersonCrossRefDao {
     @Query("DELETE FROM group_person WHERE person_id = :id")
     suspend fun deleteByPersonId(id: Long)
 
+    // todo: Add deleteByGroupAndPersonId function
+
     @Query("SELECT * FROM group_person")
     suspend fun getAll(): List<GroupPersonCrossRef>
 }
